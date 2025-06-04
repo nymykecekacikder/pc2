@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Zodiak Kamu</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      color: white;
+      text-align: center;
+      background: linear-gradient(180deg, #0f2027, #203a43, #2c5364);
+      background-size: cover;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    .stars {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: url('https://media.giphy.com/media/3o7TKtnuHOHHUjR38Y/giphy.gif') repeat;
+      opacity: 0.2;
+      z-index: 0;
+    }
+
+    .container {
+      z-index: 1;
+      background: rgba(0, 0, 50, 0.7);
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 0 15px rgba(255,255,255,0.3);
+    }
+
+    input {
+      padding: 10px;
+      margin: 5px;
+      border-radius: 5px;
+      border: none;
+      width: 60px;
+    }
+
+    button {
+      padding: 10px 20px;
+      border: none;
+      background-color: #4db8ff;
+      color: white;
+      border-radius: 5px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .result {
+      margin-top: 20px;
+      font-size: 18px;
+    }
+  </style>
+</head>
+<body>
+  <div class="stars"></div>
+
+  <div class="container">
+    <h1>🌠 Cari Zodiak Kamu</h1>
+    <p>Masukkan tanggal dan bulan lahir:</p>
+    <input type="number" id="day" placeholder="Tanggal" min="1" max="31">
+    <input type="number" id="month" placeholder="Bulan" min="1" max="12">
+    <button onclick="showZodiac()">Cek Zodiak</button>
+    <div class="result" id="result"></div>
+  </div>
+
+  <script>
+    const zodiacs = [
+      ["Capricorn", [12, 22], [1, 19]],
+      ["Aquarius", [1, 20], [2, 18]],
+      ["Pisces", [2, 19], [3, 20]],
+      ["Aries", [3, 21], [4, 19]],
+      ["Taurus", [4, 20], [5, 20]],
+      ["Gemini", [5, 21], [6, 20]],
+      ["Cancer", [6, 21], [7, 22]],
+      ["Leo", [7, 23], [8, 22]],
+      ["Virgo", [8, 23], [9, 22]],
+      ["Libra", [9, 23], [10, 22]],
+      ["Scorpio", [10, 23], [11, 21]],
+      ["Sagittarius", [11, 22], [12, 21]],
+    ];
+
+    const traits = {
+      "Capricorn": "Ambisius, disiplin, dan bertanggung jawab.",
+      "Aquarius": "Inovatif, mandiri, dan humanis.",
+      "Pisces": "Empatik, kreatif, dan intuitif.",
+      "Aries": "Berani, penuh energi, dan impulsif.",
+      "Taurus": "Stabil, sabar, dan materialistis.",
+      "Gemini": "Komunikatif, cerdas, dan mudah beradaptasi.",
+      "Cancer": "Emosional, setia, dan protektif.",
+      "Leo": "Karismatik, percaya diri, dan suka memimpin.",
+      "Virgo": "Analitis, teliti, dan perfeksionis.",
+      "Libra": "Diplomatis, adil, dan menyukai keharmonisan.",
+      "Scorpio": "Intens, misterius, dan berkemauan kuat.",
+      "Sagittarius": "Optimis, jujur, dan petualang.",
+    };
+
+    function getZodiac(day, month) {
+      for (let [zodiac, [startM, startD], [endM, endD]] of zodiacs) {
+        if ((month === startM && day >= startD) || (month === endM && day <= endD)) {
+          return zodiac;
+        }
+      }
+      return "Unknown";
+    }
+
+    function showZodiac() {
+      const day = parseInt(document.getElementById("day").value);
+      const month = parseInt(document.getElementById("month").value);
+      const resultDiv = document.getElementById("result");
+
+      if (isNaN(day) || isNaN(month)) {
+        resultDiv.innerHTML = "⚠️ Mohon masukkan tanggal dan bulan dengan benar.";
+        return;
+      }
+
+      const zodiac = getZodiac(day, month);
+      if (zodiac === "Unknown") {
+        resultDiv.innerHTML = "😕 Tanggal atau bulan tidak valid.";
+      } else {
+        resultDiv.innerHTML = `<strong>${zodiac}</strong><br>Sifat: ${traits[zodiac]}`;
+      }
+    }
+  </script>
+</body>
+</html>
